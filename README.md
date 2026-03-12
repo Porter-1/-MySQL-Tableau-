@@ -194,6 +194,7 @@ GROUP BY
   Gender
 ```
 <img width="558" height="194" alt="image" src="https://github.com/user-attachments/assets/c95434c2-768f-4538-9f38-39259d0d64dd" />
+<img width="1124" height="1038" alt="image" src="https://github.com/user-attachments/assets/ab33420c-807c-4881-af03-900ed2d00615" />
 
 3.地域集中度
 ```sql
@@ -210,6 +211,7 @@ ORDER BY
   客户数 ASC;
 ```
 <img width="820" height="674" alt="image" src="https://github.com/user-attachments/assets/ff017bb8-6227-4140-9822-c0c45ede476b" />
+<img width="1092" height="1034" alt="image" src="https://github.com/user-attachments/assets/9c2a91fb-52d4-440e-8522-23264528c999" />
 
 分析：除了20岁以下的用户较少外，年龄分布均衡，男性用户整体多于女性，且平均消费水平均在60$左右。因此，产品的广告文案、视觉风格可偏向中性、成熟、稳重，避免仅针对年轻人的潮流表达。
 Montan地区客户数最多，Alaska地区平均消费金额最高，各地区可分析当地用户画像，及时调整产品品类结构与促销策略。
@@ -231,6 +233,8 @@ ORDER BY
 ```
 <img width="550" height="262" alt="image" src="https://github.com/user-attachments/assets/293d6cb1-bd6f-48ff-a837-0f2413444332" />
 
+分析:Clothing是最畅销的商品类别，且总销售额最高。因此可将Clothing作为主打品类，加大款式更新与库存保障，并围绕其开发搭配商品（如Accessories）或推出季节限定系列。
+
 2.颜色分析
 ```sql
 SELECT
@@ -246,6 +250,9 @@ ORDER BY
   数量 ASC;
 ```
 <img width="690" height="664" alt="image" src="https://github.com/user-attachments/assets/4396183f-1359-4727-aaf5-3c9e34d20451" />
+<img width="2212" height="1272" alt="image" src="https://github.com/user-attachments/assets/620a6181-167c-4616-b95c-31185128e80b" />
+
+分析：Olive色系的客户选择最多，Green色系的平均销售额最高。可在商品设计、广告视觉中优先采用这些流行色，并在商品详情页强化颜色筛选与推荐。
 
 3.季节销售趋势分析
 ```sql
@@ -262,10 +269,11 @@ ORDER BY
   数量 ASC;
 ```
 <img width="690" height="260" alt="image" src="https://github.com/user-attachments/assets/257046d9-5d6a-4a62-a30c-0fa642716af9" />
+<img width="2210" height="988" alt="image" src="https://github.com/user-attachments/assets/ca77710c-aac7-4a05-971b-b2cf349f10ae" />
+<img width="2216" height="676" alt="image" src="https://github.com/user-attachments/assets/1adb4459-15bc-43ac-bae2-dac43852b0c8" />
+<img width="2218" height="754" alt="image" src="https://github.com/user-attachments/assets/39bbf09f-9070-47fc-abbc-bc6f1334ebb5" />
 
-分析:Clothing是最畅销的商品类别，且总销售额最高。因此可将Clothing作为主打品类，加大款式更新与库存保障，并围绕其开发搭配商品（如Accessories）或推出季节限定系列。
-颜色偏好方面，Olive色系的客户选择最多，Green色系的平均销售额最高。可在商品设计、广告视觉中优先采用这些流行色，并在商品详情页强化颜色筛选与推荐。
-季节性销售趋势显示，秋季的销售最为活跃，且不同季节的热销品类与颜色存在差异。可根据季节特点调整主推品类与主推色系，在旺季加大促销力度，在淡季可通过折扣或捆绑销售清理库存。
+分析：季节性销售趋势显示，秋季的销售最为活跃，且不同季节的热销品类与颜色存在差异。可根据季节特点调整主推品类与主推色系，在旺季加大促销力度，在淡季可通过折扣或捆绑销售清理库存。
 
 #### 用户购买行为分析
 
@@ -283,6 +291,7 @@ ORDER BY
   数量;
 ```
 <img width="616" height="378" alt="image" src="https://github.com/user-attachments/assets/f6f5a2ca-74c5-44a6-9393-d40f1297da04" />
+<img width="1104" height="906" alt="image" src="https://github.com/user-attachments/assets/44cb9c57-6bfc-46d6-ae93-5069448450c1" />
 
 2.配送方式偏好分析
 ```sqlSELECT
@@ -298,10 +307,64 @@ ORDER BY
   数量;
 ```
 <img width="712" height="348" alt="image" src="https://github.com/user-attachments/assets/1dac7db9-c6cf-445a-bd99-400328c36c1e" />
+<img width="1102" height="902" alt="image" src="https://github.com/user-attachments/assets/953c1cba-099a-408e-bb81-66e3c60d927d" />
 
 分析：PayPal、Credit Card、Cash是用户常用的支付方式，Free Shipping配送方式使用频率最高。可以优化支付方式的支付体验、同时调整运费策略，提升支付以及配送的服务质量，以提高用户满意度。
 
-3.高复购客户分析
+3.历史购买次数分析
+```sql
+SELECT
+    CASE
+        WHEN previous_purchases = 1 THEN '1次购买'
+        WHEN previous_purchases = 2 THEN '1和2次购买'
+        WHEN previous_purchases BETWEEN 2 AND 5 THEN '2-5次购买'
+        WHEN previous_purchases BETWEEN 6 AND 10 THEN '6-10次购买'
+        WHEN previous_purchases > 10 THEN '10+次购买'
+    END AS 购买次数,
+    COUNT(*) AS 客户数量,
+    CONCAT(ROUND(COUNT(*) / SUM(COUNT(*)) OVER() * 100, 2), '%') AS 占比
+FROM shopping_trends
+GROUP BY 购买次数
+ORDER BY 客户数量 DESC;
+```
+<img width="512" height="296" alt="image" src="https://github.com/user-attachments/assets/309843aa-ccea-45b6-b97e-4b941e755d0c" />
+<img width="1110" height="760" alt="image" src="https://github.com/user-attachments/assets/cfa71ff3-57cf-4a1c-982f-8902a5222346" />
+
+
+4.购买频率分析
+```sql
+WITH T1 AS (
+   SELECT
+    Frequency_of_Purchases,
+    CASE
+        WHEN previous_purchases = 1 THEN '1次购买'
+        WHEN previous_purchases = 2 THEN '1和2次购买'
+        WHEN previous_purchases BETWEEN 2 AND 5 THEN '2-5次购买'
+        WHEN previous_purchases BETWEEN 6 AND 10 THEN '6-10次购买'
+        WHEN previous_purchases > 10 THEN '10+次购买'
+    END AS 购买次数,
+    COUNT(*) AS 客户数量,
+    CONCAT(ROUND(COUNT(*) / SUM(COUNT(*)) OVER() * 100, 2), '%') AS 占比
+FROM shopping_trends
+GROUP BY Frequency_of_Purchases,购买次数
+ORDER BY 客户数量 DESC
+)
+SELECT
+    Frequency_of_Purchases ,
+    SUM(CASE WHEN 购买次数 = '1次购买' THEN 客户数量 ELSE 0 END) AS '1次购买客户数量',
+    SUM(CASE WHEN 购买次数 = '2-5次购买' THEN 客户数量 ELSE 0 END) AS '2-5次购买客户数量',
+    SUM(CASE WHEN 购买次数 = '6-10次购买' THEN 客户数量 ELSE 0 END) AS '6-10次购买客户数量',
+    SUM(CASE WHEN 购买次数 = '10+次购买' THEN 客户数量 ELSE 0 END) AS '10+次购买客户数量',
+    SUM(客户数量) AS 总客户数量
+FROM T1
+GROUP BY Frequency_of_Purchases
+ORDER BY frequency_of_purchases;
+```
+<img width="1660" height="378" alt="image" src="https://github.com/user-attachments/assets/cb1de8ae-0bdf-4623-9b0e-4e82e77b0a88" />
+<img width="1104" height="754" alt="image" src="https://github.com/user-attachments/assets/70012636-4541-42cd-b60d-cd82ebcdca94" />
+
+
+5.高复购客户分析
 ```sql
 SELECT 
     COUNT(CASE WHEN Previous_Purchases > 5 AND Frequency_of_Purchases IN ('Bi-weekly','Weekly','Fortnightly')THEN Customer_ID ELSE NULL END ) AS 高复购人数,
@@ -310,10 +373,12 @@ FROM
     shopping_trends
 ```
 <img width="382" height="122" alt="image" src="https://github.com/user-attachments/assets/cb7faf81-beec-427d-8380-cd4c72c97688" />
+<img width="2218" height="1314" alt="image" src="https://github.com/user-attachments/assets/577ad4b1-2d4b-4918-9c7f-ea20b65ba4aa" />
+<img width="2212" height="904" alt="image" src="https://github.com/user-attachments/assets/8841075d-7f3b-43b4-8f65-9e1b39b8038e" />
 
 分析：高复购用户占总用户数的37%，虽然高复购用户在商品类别的选择上差异不大，但在颜色、支付方式、配送方式上均有差异。建议针对高复购用户设计专属权益（如会员等级、专属折扣），提升其粘性；同时通过推送高频品类、订阅服务等方式，引导中低频用户向高复购转化。
 
-4.忠诚度分析：
+6.忠诚度分析：
 
 忠诚度指标体系搭建：
 
@@ -327,7 +392,7 @@ FROM
 | Subscription_Status | 是否订阅会员，订阅记1，非订阅记0。订阅用户通常具有更高忠诚度和粘度。 | 0.15 |
 
 ```sql
-WITH t1 AS (
+  WITH t1 AS (
     SELECT
       Previous_Purchases,
       CASE
@@ -377,7 +442,8 @@ WITH t1 AS (
       X1 * 0.25 + X2 * 0.2 + X3 * 0.2 + X4 * 0.05 + X5 * 0.15 + X6 * 0.15 AS 忠诚度指数
     FROM
       t2
-  ) SELECT
+  ) 
+ SELECT
   CASE
     WHEN
       忠诚度指数 < 20 THEN
@@ -394,7 +460,8 @@ WITH t1 AS (
     WHEN 忠诚度指数 >= 80 THEN
       '忠诚度极高'
   END 忠诚度,
-  COUNT(*) 客户数量
+  COUNT(*) 客户数量,
+  ROUND(COUNT(*)/SUM(COUNT(*))OVER(),3) AS 百分比
 FROM
   t3
 GROUP BY
@@ -402,14 +469,23 @@ GROUP BY
 ORDER BY
   FIELD(忠诚度, '数据缺失', '忠诚度极低', '忠诚度低', '忠诚度中等', '忠诚度高', '忠诚度极高');
 ```
+<img width="508" height="296" alt="image" src="https://github.com/user-attachments/assets/393423ed-eb6c-45e2-bcdb-0557e220a03a" />
+
+
+<img width="2214" height="992" alt="image" src="https://github.com/user-attachments/assets/328213a8-af29-4762-b5ee-e96361616c26" />
+
 分析:
 ①忠诚度极低（0-20分）为沉睡用户，占比3.1%，他们可能只是尝试性购买，对品牌几乎没有粘性，复购概率极低。
   营销策略：暂不投入高成本，可通过推送大额优惠券或爆款推荐，尝试激活；若长期无反应，可考虑放弃。
+  
 ②忠诚度低（20-40分）为低频用户，占比30.7%，这些用户对价格敏感，品牌忠诚度尚未形成，容易被竞品吸引，但仍有转化潜力。
   营销策略：推送组合折扣、满减活动，鼓励提高客单价；推荐高频品类培养购买习惯；尝试引导订阅会员获取权益。
+  
 ③忠诚度中等（40-60分）为普通活跃用户，占比47.2%，这些用户已形成一定购买习惯，对品牌有基本信任，是维持销售额的中坚力量。
   营销策略：保持关系维护，提供更多基础权益，如积分兑换、满额包邮等，鼓励向高忠诚度升级。
+  
 ④忠诚度高（60-80分）为忠诚粉丝，占比17.9%，大都是品牌的核心用户，复购稳定，愿意为品质支付溢价，且可能自发传播。
   营销策略：提供专属会员等级、生日礼遇、优先购、专属客服等VIP服务；邀请参与新品内测或品牌活动，增强归属感与口碑。
+  
 ⑤忠诚度极高（80-100分）为超级用户，占比1.1%，是品牌的最有价值用户，贡献度高，是口碑传播的核心力量，可能成为品牌大使。
   营销策略：建立一对一维护机制，提供定制化服务、限量款优先权、年度答谢礼；鼓励其分享推荐，给予推荐奖励或联名机会。
